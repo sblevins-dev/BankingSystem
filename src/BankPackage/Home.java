@@ -4,13 +4,23 @@
  */
 package BankPackage;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author nechi
  */
 public class Home extends javax.swing.JFrame
 {
-
+//    public Account(String name, int accountNumber, double accountBalance, 
+//            String accountType, Date dateOpened, String accountStatus, 
+//            String currType)
+    Date date;
+    Account currAccount; 
+    ArrayList<Transaction> transArr;
+    
     /**
      * Creates new form Home
      */
@@ -18,6 +28,28 @@ public class Home extends javax.swing.JFrame
     {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        date = new Date();
+        getTransactions();
+        
+        currAccount = new Account("Thomas Lee", "4554322312214334",
+            250000.00,  "Checking",date,
+            "Active", "USD", transArr);
+        
+        displayAccount(currAccount);
+        
+        if (transArr.size() > 1) {
+           displayRecentTransactions();
+            displayTransactions(); 
+            displayDeposits();
+            displayWithdrawals();
+        }
+        
+        
+        pnlParent.removeAll();
+        pnlParent.add(pnlOverview);
+        pnlParent.repaint();
+        pnlParent.revalidate();
     }
 
     /**
@@ -30,21 +62,432 @@ public class Home extends javax.swing.JFrame
     private void initComponents()
     {
 
+        pnlNavigation = new javax.swing.JPanel();
+        btnOverview = new javax.swing.JButton();
+        btnTransactions = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        btnDeposit = new javax.swing.JButton();
+        btnWithdrawal = new javax.swing.JButton();
+        pnlParent = new javax.swing.JPanel();
+        pnlOverview = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        transList = new java.awt.List();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        txtAccountBalance = new javax.swing.JTextField();
+        pnlTransactions = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        lstTransactions = new java.awt.List();
+        pnlDeposits = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        lstDeposits = new java.awt.List();
+        pnlWithdrawals = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        lstWithdrawals = new java.awt.List();
+        pnlInfo = new javax.swing.JPanel();
+        lblTagName = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblTagAccNumber = new javax.swing.JLabel();
+        lblAccountNumber = new javax.swing.JLabel();
+        lblTagStatus = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 204, 204));
+        setPreferredSize(new java.awt.Dimension(900, 600));
+
+        pnlNavigation.setBackground(new java.awt.Color(204, 204, 204));
+
+        btnOverview.setBackground(new java.awt.Color(204, 204, 204));
+        btnOverview.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnOverview.setForeground(new java.awt.Color(51, 51, 51));
+        btnOverview.setText("Overview");
+        btnOverview.setBorder(null);
+        btnOverview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnOverview.setFocusPainted(false);
+        btnOverview.setFocusable(false);
+        btnOverview.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnOverviewActionPerformed(evt);
+            }
+        });
+
+        btnTransactions.setBackground(new java.awt.Color(204, 204, 204));
+        btnTransactions.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnTransactions.setForeground(new java.awt.Color(51, 51, 51));
+        btnTransactions.setText("Transactions");
+        btnTransactions.setBorder(null);
+        btnTransactions.setFocusPainted(false);
+        btnTransactions.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnTransactions.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnTransactionsActionPerformed(evt);
+            }
+        });
+
+        btnLogout.setBackground(new java.awt.Color(204, 204, 204));
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(51, 51, 51));
+        btnLogout.setText("Logout");
+        btnLogout.setBorder(null);
+        btnLogout.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnLogout.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        btnDeposit.setBackground(new java.awt.Color(204, 204, 204));
+        btnDeposit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDeposit.setForeground(new java.awt.Color(51, 51, 51));
+        btnDeposit.setText("Deposits");
+        btnDeposit.setBorder(null);
+        btnDeposit.setBorderPainted(false);
+        btnDeposit.setMaximumSize(new java.awt.Dimension(80, 25));
+        btnDeposit.setMinimumSize(new java.awt.Dimension(80, 25));
+        btnDeposit.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnDeposit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnDepositActionPerformed(evt);
+            }
+        });
+
+        btnWithdrawal.setBackground(new java.awt.Color(204, 204, 204));
+        btnWithdrawal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnWithdrawal.setForeground(new java.awt.Color(51, 51, 51));
+        btnWithdrawal.setText("Withdrawals");
+        btnWithdrawal.setBorder(null);
+        btnWithdrawal.setBorderPainted(false);
+        btnWithdrawal.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnWithdrawalActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlNavigationLayout = new javax.swing.GroupLayout(pnlNavigation);
+        pnlNavigation.setLayout(pnlNavigationLayout);
+        pnlNavigationLayout.setHorizontalGroup(
+            pnlNavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnOverview, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDeposit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnWithdrawal, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+        );
+        pnlNavigationLayout.setVerticalGroup(
+            pnlNavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNavigationLayout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(btnOverview, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnWithdrawal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlParent.setBackground(new java.awt.Color(255, 255, 255));
+        pnlParent.setName(""); // NOI18N
+        pnlParent.setLayout(new java.awt.CardLayout());
+
+        pnlOverview.setBackground(new java.awt.Color(255, 255, 255));
+        pnlOverview.setName(""); // NOI18N
+        pnlOverview.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel1.setText("Recent Transactions");
+
+        jSeparator2.setBackground(new java.awt.Color(51, 51, 51));
+
+        transList.setForeground(new java.awt.Color(51, 51, 51));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2)
+                    .addComponent(transList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 459, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(transList, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
+        );
+
+        pnlOverview.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 250, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Account Balance:");
+
+        jSeparator1.setBackground(new java.awt.Color(51, 51, 51));
+
+        txtAccountBalance.setBackground(new java.awt.Color(255, 255, 255));
+        txtAccountBalance.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        txtAccountBalance.setForeground(new java.awt.Color(51, 51, 51));
+        txtAccountBalance.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtAccountBalance.setText("$250,000");
+        txtAccountBalance.setBorder(null);
+        txtAccountBalance.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        txtAccountBalance.setFocusable(false);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 152, Short.MAX_VALUE))
+                    .addComponent(txtAccountBalance))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAccountBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlOverview.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        pnlParent.add(pnlOverview, "card2");
+
+        pnlTransactions.setBackground(new java.awt.Color(255, 255, 255));
+        pnlTransactions.setName(""); // NOI18N
+        pnlTransactions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Transactions");
+        pnlTransactions.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        jSeparator3.setBackground(new java.awt.Color(51, 51, 51));
+        pnlTransactions.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, 670, 10));
+
+        lstTransactions.setForeground(new java.awt.Color(51, 51, 51));
+        pnlTransactions.add(lstTransactions, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 53, 670, 440));
+
+        pnlParent.add(pnlTransactions, "card2");
+
+        pnlDeposits.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Deposits");
+
+        lstDeposits.setForeground(new java.awt.Color(51, 51, 51));
+
+        javax.swing.GroupLayout pnlDepositsLayout = new javax.swing.GroupLayout(pnlDeposits);
+        pnlDeposits.setLayout(pnlDepositsLayout);
+        pnlDepositsLayout.setHorizontalGroup(
+            pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDepositsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDepositsLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 597, Short.MAX_VALUE))
+                    .addComponent(jSeparator4)
+                    .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        pnlDepositsLayout.setVerticalGroup(
+            pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDepositsLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlParent.add(pnlDeposits, "card4");
+
+        pnlWithdrawals.setBackground(new java.awt.Color(255, 255, 255));
+        pnlWithdrawals.setName(""); // NOI18N
+        pnlWithdrawals.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setText("Withdrawals");
+        pnlWithdrawals.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        jSeparator5.setBackground(new java.awt.Color(51, 51, 51));
+        pnlWithdrawals.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, 670, 10));
+
+        lstWithdrawals.setForeground(new java.awt.Color(51, 51, 51));
+        pnlWithdrawals.add(lstWithdrawals, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 53, 670, 440));
+
+        pnlParent.add(pnlWithdrawals, "card2");
+
+        pnlInfo.setBackground(new java.awt.Color(255, 255, 255));
+        pnlInfo.setForeground(new java.awt.Color(0, 0, 0));
+
+        lblTagName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTagName.setForeground(new java.awt.Color(51, 51, 51));
+        lblTagName.setText("Name: ");
+
+        lblName.setForeground(new java.awt.Color(51, 51, 51));
+        lblName.setText("jLabel1");
+
+        lblTagAccNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTagAccNumber.setForeground(new java.awt.Color(51, 51, 51));
+        lblTagAccNumber.setText("Account Number: ");
+
+        lblAccountNumber.setForeground(new java.awt.Color(51, 51, 51));
+        lblAccountNumber.setText("1234123412341234");
+
+        lblTagStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTagStatus.setForeground(new java.awt.Color(51, 51, 51));
+        lblTagStatus.setText("Status: ");
+
+        lblStatus.setForeground(new java.awt.Color(51, 51, 51));
+        lblStatus.setText("Active");
+
+        javax.swing.GroupLayout pnlInfoLayout = new javax.swing.GroupLayout(pnlInfo);
+        pnlInfo.setLayout(pnlInfoLayout);
+        pnlInfoLayout.setHorizontalGroup(
+            pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInfoLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(lblTagName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTagAccNumber)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(lblTagStatus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlInfoLayout.setVerticalGroup(
+            pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInfoLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTagName)
+                    .addComponent(lblName)
+                    .addComponent(lblTagAccNumber)
+                    .addComponent(lblAccountNumber)
+                    .addComponent(lblTagStatus)
+                    .addComponent(lblStatus))
+                .addGap(18, 18, 18))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlNavigation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlParent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(643, 643, 643))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 403, Short.MAX_VALUE)
+            .addComponent(pnlNavigation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlParent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOverviewActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnOverviewActionPerformed
+    {//GEN-HEADEREND:event_btnOverviewActionPerformed
+        pnlParent.removeAll();
+        pnlParent.add(pnlOverview);
+        pnlParent.repaint();
+        pnlParent.revalidate();
+    }//GEN-LAST:event_btnOverviewActionPerformed
+
+    private void btnTransactionsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnTransactionsActionPerformed
+    {//GEN-HEADEREND:event_btnTransactionsActionPerformed
+        pnlParent.removeAll();
+        pnlParent.add(pnlTransactions);
+        pnlParent.repaint();
+        pnlParent.revalidate();
+    }//GEN-LAST:event_btnTransactionsActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLogoutActionPerformed
+    {//GEN-HEADEREND:event_btnLogoutActionPerformed
+        this.dispose();
+        Login login = new Login();
+        login.setVisible(true);
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnDepositActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnDepositActionPerformed
+    {//GEN-HEADEREND:event_btnDepositActionPerformed
+        pnlParent.removeAll();
+        pnlParent.add(pnlDeposits);
+        pnlParent.repaint();
+        pnlParent.revalidate();
+    }//GEN-LAST:event_btnDepositActionPerformed
+
+    private void btnWithdrawalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnWithdrawalActionPerformed
+    {//GEN-HEADEREND:event_btnWithdrawalActionPerformed
+        pnlParent.removeAll();
+        pnlParent.add(pnlWithdrawals);
+        pnlParent.repaint();
+        pnlParent.revalidate();
+    }//GEN-LAST:event_btnWithdrawalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -92,5 +535,84 @@ public class Home extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeposit;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnOverview;
+    private javax.swing.JButton btnTransactions;
+    private javax.swing.JButton btnWithdrawal;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JLabel lblAccountNumber;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTagAccNumber;
+    private javax.swing.JLabel lblTagName;
+    private javax.swing.JLabel lblTagStatus;
+    private java.awt.List lstDeposits;
+    private java.awt.List lstTransactions;
+    private java.awt.List lstWithdrawals;
+    private javax.swing.JPanel pnlDeposits;
+    private javax.swing.JPanel pnlInfo;
+    private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JPanel pnlOverview;
+    private javax.swing.JPanel pnlParent;
+    private javax.swing.JPanel pnlTransactions;
+    private javax.swing.JPanel pnlWithdrawals;
+    private java.awt.List transList;
+    private javax.swing.JTextField txtAccountBalance;
     // End of variables declaration//GEN-END:variables
+
+    private void displayAccount(Account currAccount)
+    {
+        lblName.setText(currAccount.getName());
+        lblAccountNumber.setText(String.valueOf(currAccount.getAccountNumber()));
+        lblStatus.setText(currAccount.getAccountStatus());
+        txtAccountBalance.setText(String.valueOf(currAccount.getBalance()));
+    }
+
+    private void getTransactions()
+    {
+        transArr = MakeFakeTransactions.makeTransactions();
+    }
+    
+    private void displayRecentTransactions() {
+        
+        for (int i = 0; i < 5; i++) {
+            transList.add(transArr.get(i).toString());
+        }
+    }
+    
+    private void displayTransactions() {
+        for (int i = 0; i < transArr.size(); i++) {
+            lstTransactions.add(transArr.get(i).toString());
+        }
+    }
+    
+    private void displayDeposits() {
+        for (int i = 0; i < transArr.size(); i++) {
+            Transaction currTrans = transArr.get(i);
+            
+            if (currTrans.getType() == "Deposit") 
+                lstDeposits.add(currTrans.toString());
+        }
+    }
+    
+    private void displayWithdrawals() {
+        for (int i = 0; i < transArr.size(); i++) {
+            Transaction currTrans = transArr.get(i);
+            
+            if (currTrans.getType() == "Withdrawal") 
+                lstWithdrawals.add(currTrans.toString());
+        }
+    }
 }

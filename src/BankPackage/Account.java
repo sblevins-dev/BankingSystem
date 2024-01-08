@@ -4,6 +4,7 @@
  */
 package BankPackage;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -13,17 +14,18 @@ import java.util.Date;
 public class Account
 {
     private String name;
-    private int accountNumber;
+    private String accountNumber;
     private double accountBalance;
     private String accountType;
     private double interestRate;
     private Date dateOpened;
     private String accountStatus;
     private String currType;
+    private ArrayList<Transaction> transactions;
     
-    public Account(String name, int accountNumber, double accountBalance, 
+    public Account(String name, String accountNumber, double accountBalance, 
             String accountType, Date dateOpened, String accountStatus, 
-            String currType) {
+            String currType, ArrayList transactions) {
         this.name = name;
         this.accountNumber = accountNumber;
         this.accountBalance = accountBalance;
@@ -31,13 +33,14 @@ public class Account
         this.dateOpened = dateOpened;
         this.accountStatus = accountStatus;
         this.currType = currType;
+        this.transactions = transactions;
     }
     
     public String getName() {
         return this.name;
     }
     
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return this.accountNumber;
     }
     
@@ -71,5 +74,9 @@ public class Account
     
     public void setCurrType(String type) {
         this.currType = type;
+    }
+    
+    public ArrayList getTransactions() {
+        return this.transactions;
     }
 }
