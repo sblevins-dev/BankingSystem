@@ -7,6 +7,7 @@ package BankPackage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
+import javax.swing.JFrame;
 
 /**
  *
@@ -86,10 +87,12 @@ public class Home extends javax.swing.JFrame
         jLabel4 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         lstDeposits = new java.awt.List();
+        btnMakeDeposit = new javax.swing.JButton();
         pnlWithdrawals = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
         lstWithdrawals = new java.awt.List();
+        btnMakeWithdrawal = new javax.swing.JButton();
         pnlInfo = new javax.swing.JPanel();
         lblTagName = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
@@ -323,6 +326,17 @@ public class Home extends javax.swing.JFrame
 
         lstDeposits.setForeground(new java.awt.Color(51, 51, 51));
 
+        btnMakeDeposit.setBackground(new java.awt.Color(0, 51, 102));
+        btnMakeDeposit.setForeground(new java.awt.Color(255, 255, 255));
+        btnMakeDeposit.setText("Make a Deposit");
+        btnMakeDeposit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnMakeDepositActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlDepositsLayout = new javax.swing.GroupLayout(pnlDeposits);
         pnlDeposits.setLayout(pnlDepositsLayout);
         pnlDepositsLayout.setHorizontalGroup(
@@ -332,7 +346,8 @@ public class Home extends javax.swing.JFrame
                 .addGroup(pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDepositsLayout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(0, 597, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 467, Short.MAX_VALUE)
+                        .addComponent(btnMakeDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator4)
                     .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -341,11 +356,13 @@ public class Home extends javax.swing.JFrame
             pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDepositsLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel4)
+                .addGroup(pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(btnMakeDeposit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -358,13 +375,25 @@ public class Home extends javax.swing.JFrame
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Withdrawals");
-        pnlWithdrawals.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        pnlWithdrawals.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jSeparator5.setBackground(new java.awt.Color(51, 51, 51));
-        pnlWithdrawals.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, 670, 10));
+        pnlWithdrawals.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 670, 10));
 
         lstWithdrawals.setForeground(new java.awt.Color(51, 51, 51));
-        pnlWithdrawals.add(lstWithdrawals, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 53, 670, 440));
+        pnlWithdrawals.add(lstWithdrawals, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, 670, 420));
+
+        btnMakeWithdrawal.setBackground(new java.awt.Color(0, 51, 102));
+        btnMakeWithdrawal.setForeground(new java.awt.Color(255, 255, 255));
+        btnMakeWithdrawal.setText("Make a Withdrawal");
+        btnMakeWithdrawal.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnMakeWithdrawalActionPerformed(evt);
+            }
+        });
+        pnlWithdrawals.add(btnMakeWithdrawal, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
 
         pnlParent.add(pnlWithdrawals, "card2");
 
@@ -489,6 +518,17 @@ public class Home extends javax.swing.JFrame
         pnlParent.revalidate();
     }//GEN-LAST:event_btnWithdrawalActionPerformed
 
+    private void btnMakeWithdrawalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMakeWithdrawalActionPerformed
+    {//GEN-HEADEREND:event_btnMakeWithdrawalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMakeWithdrawalActionPerformed
+
+    private void btnMakeDepositActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMakeDepositActionPerformed
+    {//GEN-HEADEREND:event_btnMakeDepositActionPerformed
+        MakeDeposit md = new MakeDeposit(currAccount.getAccountNumber());
+        md.setVisible(true);
+    }//GEN-LAST:event_btnMakeDepositActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -537,6 +577,8 @@ public class Home extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeposit;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnMakeDeposit;
+    private javax.swing.JButton btnMakeWithdrawal;
     private javax.swing.JButton btnOverview;
     private javax.swing.JButton btnTransactions;
     private javax.swing.JButton btnWithdrawal;
