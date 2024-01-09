@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javax.swing.JFrame;
 
@@ -34,12 +35,12 @@ public class Home extends javax.swing.JFrame
         this.setLocationRelativeTo(null);
         
         date = new Date();
-        getTransactions();
-        signIn();
         
+        signIn();
+        getTransactions();
         displayAccount(currAccount);
         
-        if (transArr.size() > 1) {
+        if (transArr.size() > 0) {
            displayRecentTransactions();
             displayTransactions(); 
             displayDeposits();
@@ -574,14 +575,16 @@ public class Home extends javax.swing.JFrame
         txtAccountBalance.setText(String.valueOf(currAccount.getBalance()));
     }
 
-    private void getTransactions()
+    private void getTransactions() throws SQLException, ClassNotFoundException
     {
-        transArr = MakeFakeTransactions.makeTransactions();
+        DataIO dataIo = new DataIO();
+        transArr = dataIo.getTransactions(currAccount.getID());
     }
     
     private void displayRecentTransactions() {
         
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < transArr.size(); i++) {
+            if (i == 4) break;
             transList.add(transArr.get(i).toString());
         }
     }
@@ -593,20 +596,26 @@ public class Home extends javax.swing.JFrame
     }
     
     private void displayDeposits() {
+        String testStr;
+        Transaction trans;
+        
         for (int i = 0; i < transArr.size(); i++) {
-            Transaction currTrans = transArr.get(i);
-            
-            if (currTrans.getType() == "Deposit") 
-                lstDeposits.add(currTrans.toString());
+            trans = transArr.get(i);
+            testStr = trans.getType();
+            if (testStr.equals("Deposit"))
+                lstDeposits.add(trans.toString());
         }
     }
     
     private void displayWithdrawals() {
+        String testStr;
+        Transaction trans;
+        
         for (int i = 0; i < transArr.size(); i++) {
-            Transaction currTrans = transArr.get(i);
-            
-            if (currTrans.getType() == "Withdrawal") 
-                lstWithdrawals.add(currTrans.toString());
+            trans = transArr.get(i);
+            testStr = trans.getType();
+            if (testStr.equals("Withdrawal")) 
+                lstWithdrawals.add(trans.toString());
         }
     }
 

@@ -36,7 +36,6 @@ public class DataIO
     public Account getAccount(int id) throws SQLException, ClassNotFoundException
     {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        System.out.println(USER_NAME);
         Account currAcct;
         
         String sql = "SELECT id, Name, AccountNumber, AccountType, "
@@ -58,5 +57,36 @@ public class DataIO
         con.close();
 
         return currAcct;
+    }
+    
+    public ArrayList getTransactions(int id) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        
+        ArrayList<Transaction> transList = new ArrayList();
+        Transaction trans;
+        
+        String sql = "SELECT * FROM transaction WHERE UserId = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            trans = new Transaction();
+            
+            trans.setId(rs.getInt(1));
+            trans.setPlace(rs.getString(2));
+            trans.setDate(rs.getString(3));
+            trans.setType(rs.getString(4));
+            trans.setAmount(rs.getDouble(5));
+            trans.setCurrType(rs.getString(6));
+            trans.setUserId(rs.getInt(7));
+            
+            transList.add(trans);
+
+        }
+        
+        con.close();
+        
+        return transList;
     }
 }
