@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -33,6 +36,8 @@ public class Home extends javax.swing.JFrame
     {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        
         
         date = new Date();
         
@@ -75,7 +80,8 @@ public class Home extends javax.swing.JFrame
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        transList = new java.awt.List();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblTrans = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -232,8 +238,22 @@ public class Home extends javax.swing.JFrame
         jSeparator2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 37, 655, 10));
 
-        transList.setForeground(new java.awt.Color(51, 51, 51));
-        jPanel1.add(transList, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 57, 655, 184));
+        tblTrans.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String []
+            {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblTrans);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 650, 180));
 
         pnlOverview.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 250, -1, -1));
 
@@ -461,7 +481,8 @@ public class Home extends javax.swing.JFrame
 
     private void btnMakeWithdrawalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMakeWithdrawalActionPerformed
     {//GEN-HEADEREND:event_btnMakeWithdrawalActionPerformed
-        // TODO add your handling code here:
+        MakeWithdrawal mw = new MakeWithdrawal(currAccount.getAccountNumber());
+        mw.setVisible(true);
     }//GEN-LAST:event_btnMakeWithdrawalActionPerformed
 
     private void btnMakeDepositActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMakeDepositActionPerformed
@@ -542,6 +563,7 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -563,7 +585,7 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JPanel pnlParent;
     private javax.swing.JPanel pnlTransactions;
     private javax.swing.JPanel pnlWithdrawals;
-    private java.awt.List transList;
+    private javax.swing.JTable tblTrans;
     private javax.swing.JTextField txtAccountBalance;
     // End of variables declaration//GEN-END:variables
 
@@ -582,10 +604,18 @@ public class Home extends javax.swing.JFrame
     }
     
     private void displayRecentTransactions() {
+        Transaction trans;
+        
+        String data[][] = {{"101", "Amit", "67000"}};
+        String[] columnNames = {"id", "Amount"};
+       DefaultTableModel table = new DefaultTableModel(data, columnNames);
+       tblTrans.setModel(table);
         
         for (int i = 0; i < transArr.size(); i++) {
-            if (i == 4) break;
-            transList.add(transArr.get(i).toString());
+            trans = transArr.get(i);
+            
+//            if (i == 4) break;
+//            tblTrans.convertRowIndexToModel(trans);
         }
     }
     

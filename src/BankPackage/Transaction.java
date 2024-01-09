@@ -74,7 +74,7 @@ public class Transaction
         this.type = type;
     }
     
-    public double getAmmount() {
+    public double getAmount() {
         return this.amount;
     }
     
@@ -93,9 +93,27 @@ public class Transaction
     public String toString() {
         String str = "";
         
-        str += this.getPlace() + "\t" + this.getDate() + "\t" + this.getType() 
-                + "\t" + this.getAmmount();
-        
+//        str += this.getPlace() + " " + this.getDate() + " " + this.getType() 
+//                + " " + this.getAmmount();
+
+        str += String.format("%-15s%5s", this.getPlace(), "hello");
+        // Define column widths
+int idColumnWidth = 10;
+int nameColumnWidth = 20;
+int scoreColumnWidth = 10;
+
+// Print table header
+str += String.format("%-" + idColumnWidth + "s%-" + nameColumnWidth + "s%-" 
+  + scoreColumnWidth + "s", this.getId(), this.getDate(), this.getAmount());
+System.out.println("-".repeat(idColumnWidth + nameColumnWidth + scoreColumnWidth));
+
+//// Print data in aligned columns
+//for (int i = 0; i < names.length; i++) {
+//
+//  String formattedId = String.format("%-" + idColumnWidth + "d", ids[i]);
+//  String formattedName = String.format("%-" + nameColumnWidth + "s", names[i]);
+//  String formattedScore = String.format("%-" + scoreColumnWidth + "d", scores[i]);
+//  System.out.println(formattedId + formattedName + formattedScore);
     
         
         return str;
