@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class Account
 {
+    private int id;
     private String name;
     private String accountNumber;
     private double accountBalance;
@@ -22,6 +23,10 @@ public class Account
     private String accountStatus;
     private String currType;
     private ArrayList<Transaction> transactions;
+    
+    public Account() {
+        
+    }
     
     public Account(String name, String accountNumber, double accountBalance, 
             String accountType, Date dateOpened, String accountStatus, 
@@ -36,24 +41,44 @@ public class Account
         this.transactions = transactions;
     }
     
+    public int getID() {
+        return this.id;
+    }
+    
+    public void setID(int id) {
+        this.id = id;
+    }
+    
     public String getName() {
         return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
     
     public String getAccountNumber() {
         return this.accountNumber;
     }
     
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+    
     public double getBalance() {
         return this.accountBalance;
     }
     
-    public void setBalance(double balance) {
-        this.accountBalance = balance;
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
     }
     
     public String getAccountType() {
         return this.accountType;
+    }
+    
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
     
     public String getAccountStatus() {

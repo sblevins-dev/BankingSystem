@@ -4,6 +4,10 @@
  */
 package BankPackage;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author nechi
@@ -135,8 +139,19 @@ public class Login extends javax.swing.JFrame
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLoginActionPerformed
     {//GEN-HEADEREND:event_btnLoginActionPerformed
         this.dispose();
-        Home home = new Home();
-        home.setVisible(true);
+        Home home;
+        try
+        {
+            home = new Home();
+            home.setVisible(true);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

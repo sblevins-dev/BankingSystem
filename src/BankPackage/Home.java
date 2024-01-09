@@ -4,8 +4,11 @@
  */
 package BankPackage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.JFrame;
 
@@ -25,17 +28,14 @@ public class Home extends javax.swing.JFrame
     /**
      * Creates new form Home
      */
-    public Home()
+    public Home() throws SQLException, ClassNotFoundException
     {
         initComponents();
         this.setLocationRelativeTo(null);
         
         date = new Date();
         getTransactions();
-        
-        currAccount = new Account("Thomas Lee", "4554322312214334",
-            250000.00,  "Checking",date,
-            "Active", "USD", transArr);
+        signIn();
         
         displayAccount(currAccount);
         
@@ -104,6 +104,7 @@ public class Home extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
         setPreferredSize(new java.awt.Dimension(900, 600));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlNavigation.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -209,6 +210,8 @@ public class Home extends javax.swing.JFrame
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 600));
+
         pnlParent.setBackground(new java.awt.Color(255, 255, 255));
         pnlParent.setName(""); // NOI18N
         pnlParent.setLayout(new java.awt.CardLayout());
@@ -218,40 +221,18 @@ public class Home extends javax.swing.JFrame
         pnlOverview.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Recent Transactions");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 6, 196, -1));
 
         jSeparator2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 37, 655, 10));
 
         transList.setForeground(new java.awt.Color(51, 51, 51));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
-                    .addComponent(transList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 459, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(transList, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
-        );
+        jPanel1.add(transList, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 57, 655, 184));
 
         pnlOverview.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 250, -1, -1));
 
@@ -311,20 +292,24 @@ public class Home extends javax.swing.JFrame
         pnlTransactions.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         jSeparator3.setBackground(new java.awt.Color(51, 51, 51));
-        pnlTransactions.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, 670, 10));
+        pnlTransactions.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 670, 10));
 
         lstTransactions.setForeground(new java.awt.Color(51, 51, 51));
-        pnlTransactions.add(lstTransactions, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 53, 670, 440));
+        pnlTransactions.add(lstTransactions, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 63, 660, 430));
 
         pnlParent.add(pnlTransactions, "card2");
 
         pnlDeposits.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDeposits.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Deposits");
+        pnlDeposits.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, -1, -1));
+        pnlDeposits.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 53, 670, 10));
 
         lstDeposits.setForeground(new java.awt.Color(51, 51, 51));
+        pnlDeposits.add(lstDeposits, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 67, 670, 459));
 
         btnMakeDeposit.setBackground(new java.awt.Color(0, 51, 102));
         btnMakeDeposit.setForeground(new java.awt.Color(255, 255, 255));
@@ -336,35 +321,7 @@ public class Home extends javax.swing.JFrame
                 btnMakeDepositActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnlDepositsLayout = new javax.swing.GroupLayout(pnlDeposits);
-        pnlDeposits.setLayout(pnlDepositsLayout);
-        pnlDepositsLayout.setHorizontalGroup(
-            pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDepositsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlDepositsLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 467, Short.MAX_VALUE)
-                        .addComponent(btnMakeDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator4)
-                    .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        pnlDepositsLayout.setVerticalGroup(
-            pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDepositsLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(pnlDepositsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(btnMakeDeposit))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(lstDeposits, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        pnlDeposits.add(btnMakeDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 18, 130, -1));
 
         pnlParent.add(pnlDeposits, "card4");
 
@@ -396,6 +353,8 @@ public class Home extends javax.swing.JFrame
         pnlWithdrawals.add(btnMakeWithdrawal, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
 
         pnlParent.add(pnlWithdrawals, "card2");
+
+        getContentPane().add(pnlParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 64, 700, 540));
 
         pnlInfo.setBackground(new java.awt.Color(255, 255, 255));
         pnlInfo.setForeground(new java.awt.Color(0, 0, 0));
@@ -443,7 +402,7 @@ public class Home extends javax.swing.JFrame
         pnlInfoLayout.setVerticalGroup(
             pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInfoLayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addGroup(pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTagName)
                     .addComponent(lblName)
@@ -454,26 +413,7 @@ public class Home extends javax.swing.JFrame
                 .addGap(18, 18, 18))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlNavigation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlParent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(643, 643, 643))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlNavigation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlParent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 0, 700, 70));
 
         pack();
         setLocationRelativeTo(null);
@@ -569,7 +509,19 @@ public class Home extends javax.swing.JFrame
         {
             public void run()
             {
-                new Home().setVisible(true);
+                try
+                {
+                    try
+                    {
+                        new Home().setVisible(true);
+                    } catch (ClassNotFoundException ex)
+                    {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (SQLException ex)
+                {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -656,5 +608,13 @@ public class Home extends javax.swing.JFrame
             if (currTrans.getType() == "Withdrawal") 
                 lstWithdrawals.add(currTrans.toString());
         }
+    }
+
+    private void signIn() throws SQLException, ClassNotFoundException
+    {
+        DataIO dataIO = new DataIO();
+        
+        // pulls in first not dynamic
+        currAccount = dataIO.getAccount(1);
     }
 }
