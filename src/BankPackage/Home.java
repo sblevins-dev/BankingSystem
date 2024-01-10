@@ -9,12 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -22,9 +16,6 @@ import javax.swing.table.TableModel;
  */
 public class Home extends javax.swing.JFrame
 {
-//    public Account(String name, int accountNumber, double accountBalance, 
-//            String accountType, Date dateOpened, String accountStatus, 
-//            String currType)
     Date date;
     Account currAccount; 
     ArrayList<Transaction> transArr;
@@ -46,10 +37,7 @@ public class Home extends javax.swing.JFrame
         displayAccount(currAccount);
         
         if (transArr.size() > 0) {
-           displayRecentTransactions();
-            displayTransactions(); 
-            displayDeposits();
-            displayWithdrawals();
+            display();
         }
         
         
@@ -89,17 +77,20 @@ public class Home extends javax.swing.JFrame
         pnlTransactions = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        lstTransactions = new java.awt.List();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblTransactions = new javax.swing.JTable();
         pnlDeposits = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        lstDeposits = new java.awt.List();
         btnMakeDeposit = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblDeposits = new javax.swing.JTable();
         pnlWithdrawals = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
-        lstWithdrawals = new java.awt.List();
         btnMakeWithdrawal = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblWithdrawals = new javax.swing.JTable();
         pnlInfo = new javax.swing.JPanel();
         lblTagName = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
@@ -199,7 +190,7 @@ public class Home extends javax.swing.JFrame
             .addComponent(btnTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDeposit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnWithdrawal, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+            .addComponent(btnWithdrawal, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
         pnlNavigationLayout.setVerticalGroup(
             pnlNavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +208,7 @@ public class Home extends javax.swing.JFrame
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 600));
+        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 600));
 
         pnlParent.setBackground(new java.awt.Color(255, 255, 255));
         pnlParent.setName(""); // NOI18N
@@ -236,7 +227,7 @@ public class Home extends javax.swing.JFrame
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 6, 196, -1));
 
         jSeparator2.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 37, 655, 10));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 37, 650, 10));
 
         tblTrans.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -310,13 +301,27 @@ public class Home extends javax.swing.JFrame
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Transactions");
-        pnlTransactions.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        pnlTransactions.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jSeparator3.setBackground(new java.awt.Color(51, 51, 51));
-        pnlTransactions.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 670, 10));
+        pnlTransactions.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 660, 10));
 
-        lstTransactions.setForeground(new java.awt.Color(51, 51, 51));
-        pnlTransactions.add(lstTransactions, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 63, 660, 430));
+        tblTransactions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String []
+            {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblTransactions);
+
+        pnlTransactions.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 660, 430));
 
         pnlParent.add(pnlTransactions, "card2");
 
@@ -326,11 +331,8 @@ public class Home extends javax.swing.JFrame
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Deposits");
-        pnlDeposits.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, -1, -1));
-        pnlDeposits.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 53, 670, 10));
-
-        lstDeposits.setForeground(new java.awt.Color(51, 51, 51));
-        pnlDeposits.add(lstDeposits, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 67, 670, 459));
+        pnlDeposits.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        pnlDeposits.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 660, 10));
 
         btnMakeDeposit.setBackground(new java.awt.Color(0, 51, 102));
         btnMakeDeposit.setForeground(new java.awt.Color(255, 255, 255));
@@ -342,7 +344,24 @@ public class Home extends javax.swing.JFrame
                 btnMakeDepositActionPerformed(evt);
             }
         });
-        pnlDeposits.add(btnMakeDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 18, 130, -1));
+        pnlDeposits.add(btnMakeDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 130, -1));
+
+        tblDeposits.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String []
+            {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tblDeposits);
+
+        pnlDeposits.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 660, 430));
 
         pnlParent.add(pnlDeposits, "card4");
 
@@ -353,13 +372,10 @@ public class Home extends javax.swing.JFrame
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Withdrawals");
-        pnlWithdrawals.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        pnlWithdrawals.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jSeparator5.setBackground(new java.awt.Color(51, 51, 51));
-        pnlWithdrawals.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 670, 10));
-
-        lstWithdrawals.setForeground(new java.awt.Color(51, 51, 51));
-        pnlWithdrawals.add(lstWithdrawals, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, 670, 420));
+        pnlWithdrawals.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 660, 10));
 
         btnMakeWithdrawal.setBackground(new java.awt.Color(0, 51, 102));
         btnMakeWithdrawal.setForeground(new java.awt.Color(255, 255, 255));
@@ -372,6 +388,23 @@ public class Home extends javax.swing.JFrame
             }
         });
         pnlWithdrawals.add(btnMakeWithdrawal, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
+
+        tblWithdrawals.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String []
+            {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblWithdrawals);
+
+        pnlWithdrawals.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 660, 430));
 
         pnlParent.add(pnlWithdrawals, "card2");
 
@@ -564,6 +597,9 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -575,9 +611,6 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JLabel lblTagAccNumber;
     private javax.swing.JLabel lblTagName;
     private javax.swing.JLabel lblTagStatus;
-    private java.awt.List lstDeposits;
-    private java.awt.List lstTransactions;
-    private java.awt.List lstWithdrawals;
     private javax.swing.JPanel pnlDeposits;
     private javax.swing.JPanel pnlInfo;
     private javax.swing.JPanel pnlNavigation;
@@ -585,10 +618,14 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JPanel pnlParent;
     private javax.swing.JPanel pnlTransactions;
     private javax.swing.JPanel pnlWithdrawals;
+    private javax.swing.JTable tblDeposits;
     private javax.swing.JTable tblTrans;
+    private javax.swing.JTable tblTransactions;
+    private javax.swing.JTable tblWithdrawals;
     private javax.swing.JTextField txtAccountBalance;
     // End of variables declaration//GEN-END:variables
 
+    // Display Account information at top of Application
     private void displayAccount(Account currAccount)
     {
         lblName.setText(currAccount.getName());
@@ -597,56 +634,61 @@ public class Home extends javax.swing.JFrame
         txtAccountBalance.setText(String.valueOf(currAccount.getBalance()));
     }
 
+    // Pull all transactions from DB
     private void getTransactions() throws SQLException, ClassNotFoundException
     {
         DataIO dataIo = new DataIO();
         transArr = dataIo.getTransactions(currAccount.getID());
     }
     
-    private void displayRecentTransactions() {
-        Transaction trans;
+    
+    // Display transactions on panels
+    private void display() {
         
-        String data[][] = {{"101", "Amit", "67000"}};
-        String[] columnNames = {"id", "Amount"};
-       DefaultTableModel table = new DefaultTableModel(data, columnNames);
-       tblTrans.setModel(table);
+        // Display recent transactions on Home/Overview panel
+        ArrayList<Transaction> recentList = new ArrayList();
+        ArrayList<Transaction> depositList = new ArrayList();
+        ArrayList<Transaction> withdrawalList = new ArrayList();
+        
+        String testStr;
+        Transaction trans;
         
         for (int i = 0; i < transArr.size(); i++) {
             trans = transArr.get(i);
+            testStr = trans.getType();
             
-//            if (i == 4) break;
-//            tblTrans.convertRowIndexToModel(trans);
+            if (i <= 4 && i < transArr.size()) {
+               recentList.add(trans); 
+            } 
+            
+            if (testStr.equals("Deposit")) {
+                depositList.add(trans);
+            } 
+            
+            if (testStr.equals("Withdrawal")) {
+                withdrawalList.add(trans);
+            }
         }
-    }
-    
-    private void displayTransactions() {
-        for (int i = 0; i < transArr.size(); i++) {
-            lstTransactions.add(transArr.get(i).toString());
-        }
-    }
-    
-    private void displayDeposits() {
-        String testStr;
-        Transaction trans;
         
-        for (int i = 0; i < transArr.size(); i++) {
-            trans = transArr.get(i);
-            testStr = trans.getType();
-            if (testStr.equals("Deposit"))
-                lstDeposits.add(trans.toString());
-        }
-    }
-    
-    private void displayWithdrawals() {
-        String testStr;
-        Transaction trans;
+        // Display recent transactions on Home/Overview page
+        MyTableModel recentTransModel = new MyTableModel(recentList);
+        tblTrans.setModel(recentTransModel);
+        tblTrans.setRowHeight(30);
         
-        for (int i = 0; i < transArr.size(); i++) {
-            trans = transArr.get(i);
-            testStr = trans.getType();
-            if (testStr.equals("Withdrawal")) 
-                lstWithdrawals.add(trans.toString());
-        }
+        // Display all transactions on Transactions page
+        MyTableModel transactionModel = new MyTableModel(transArr);
+        tblTransactions.setModel(transactionModel);
+        tblTransactions.setRowHeight(30);
+        
+        // Display deposit transactions on deposit page
+        MyTableModel depositModel = new MyTableModel(depositList);
+        tblDeposits.setModel(depositModel);
+        tblDeposits.setRowHeight(30);
+        
+        // Display withdrawal transactions on withdrawal page
+        MyTableModel withdrawalModel = new MyTableModel(withdrawalList);
+        tblWithdrawals.setModel(withdrawalModel);
+        tblWithdrawals.setRowHeight(30);
     }
 
     private void signIn() throws SQLException, ClassNotFoundException
