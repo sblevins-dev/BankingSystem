@@ -4,9 +4,15 @@
  */
 package BankPackage;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,6 +28,22 @@ public class Login extends javax.swing.JFrame
     {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("C:\\Users\\nechi\\OneDrive"
+                    + "\\Desktop\\Projects\\Bank\\src\\BankPackage"
+                    + "\\bank.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image dimg = img.getScaledInstance( 600, 
+                lblImg.getHeight(), Image.SCALE_SMOOTH);
+        
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        lblImg.setIcon(imageIcon);
+        pnlOverlay.setBackground(new java.awt.Color(0, 0, 0, 75));
     }
 
     /**
@@ -43,8 +65,14 @@ public class Login extends javax.swing.JFrame
         jSeparator2 = new javax.swing.JSeparator();
         jPasswordField1 = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        loginLeft = new javax.swing.JPanel();
+        pnlOverlay = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        loginBGPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         loginRight.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -73,26 +101,25 @@ public class Login extends javax.swing.JFrame
         loginRight.setLayout(loginRightLayout);
         loginRightLayout.setHorizontalGroup(
             loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loginRightLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginRightLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addGroup(loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblPassword)
+                        .addComponent(jSeparator2)
+                        .addComponent(lblUsername)
+                        .addComponent(txtUsername)
+                        .addComponent(jSeparator1)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(loginRightLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addGroup(loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblPassword)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                            .addComponent(lblUsername)
-                            .addComponent(txtUsername)
-                            .addComponent(jSeparator1)
-                            .addComponent(jPasswordField1)))
-                    .addGroup(loginRightLayout.createSequentialGroup()
-                        .addGap(98, 98, 98)
+                        .addGap(62, 62, 62)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
         loginRightLayout.setVerticalGroup(
             loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginRightLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(37, 37, 37)
                 .addComponent(lblUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -106,21 +133,51 @@ public class Login extends javax.swing.JFrame
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout loginBGPanelLayout = new javax.swing.GroupLayout(loginBGPanel);
-        loginBGPanel.setLayout(loginBGPanelLayout);
-        loginBGPanelLayout.setHorizontalGroup(
-            loginBGPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginBGPanelLayout.createSequentialGroup()
-                .addGap(0, 265, Short.MAX_VALUE)
-                .addComponent(loginRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        loginBGPanel.add(loginRight, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 0, 290, -1));
+
+        loginLeft.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlOverlay.setBackground(new java.awt.Color(0, 0, 0));
+        pnlOverlay.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("<html>Bank Of The Ozarks</html>");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        javax.swing.GroupLayout pnlOverlayLayout = new javax.swing.GroupLayout(pnlOverlay);
+        pnlOverlay.setLayout(pnlOverlayLayout);
+        pnlOverlayLayout.setHorizontalGroup(
+            pnlOverlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOverlayLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(138, Short.MAX_VALUE))
         );
-        loginBGPanelLayout.setVerticalGroup(
-            loginBGPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loginRight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        pnlOverlayLayout.setVerticalGroup(
+            pnlOverlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOverlayLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
+
+        loginLeft.add(pnlOverlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 390));
+
+        lblImg.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblImg.setForeground(new java.awt.Color(255, 255, 255));
+        lblImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImg.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblImg.setMaximumSize(new java.awt.Dimension(500, 100));
+        lblImg.setMinimumSize(new java.awt.Dimension(500, 100));
+        lblImg.setPreferredSize(new java.awt.Dimension(1200, 500));
+        loginLeft.add(lblImg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 390));
+
+        loginBGPanel.add(loginLeft, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 385));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,13 +259,17 @@ public class Login extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblImg;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel loginBGPanel;
+    private javax.swing.JPanel loginLeft;
     private javax.swing.JPanel loginRight;
+    private javax.swing.JPanel pnlOverlay;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

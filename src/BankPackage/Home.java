@@ -4,6 +4,7 @@
  */
 package BankPackage;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class Home extends javax.swing.JFrame
     {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+        this.setTitle("Bank Of The Ozarks");
+        this.setResizable(false);
         
         
         date = new Date();
@@ -48,6 +50,26 @@ public class Home extends javax.swing.JFrame
         pnlParent.add(pnlOverview);
         pnlParent.repaint();
         pnlParent.revalidate();
+        
+        btnOverview.setBorderPainted(false);
+        btnOverview.setFocusPainted(false);
+        btnOverview.setContentAreaFilled(false);
+        
+        btnTransactions.setBorderPainted(false);
+        btnTransactions.setFocusPainted(false);
+        btnTransactions.setContentAreaFilled(false);
+        
+        btnDeposit.setBorderPainted(false);
+        btnDeposit.setFocusPainted(false);
+        btnDeposit.setContentAreaFilled(false);
+        
+        btnWithdrawal.setBorderPainted(false);
+        btnWithdrawal.setFocusPainted(false);
+        btnWithdrawal.setContentAreaFilled(false);
+        
+        btnLogout.setBorderPainted(false);
+        btnLogout.setFocusPainted(false);
+        btnLogout.setContentAreaFilled(false);
     }
 
     /**
@@ -103,7 +125,7 @@ public class Home extends javax.swing.JFrame
         lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(204, 204, 204));
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -117,6 +139,13 @@ public class Home extends javax.swing.JFrame
         btnOverview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnOverview.setFocusPainted(false);
         btnOverview.setFocusable(false);
+        btnOverview.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                OverviewHover(evt);
+            }
+        });
         btnOverview.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -193,7 +222,7 @@ public class Home extends javax.swing.JFrame
             .addComponent(btnTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDeposit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnWithdrawal, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+            .addComponent(btnWithdrawal, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
         pnlNavigationLayout.setVerticalGroup(
             pnlNavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,10 +237,10 @@ public class Home extends javax.swing.JFrame
                 .addComponent(btnWithdrawal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
 
-        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 610));
+        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 610));
 
         pnlParent.setBackground(new java.awt.Color(255, 255, 255));
         pnlParent.setName(""); // NOI18N
@@ -412,7 +441,7 @@ public class Home extends javax.swing.JFrame
 
         pnlParent.add(pnlWithdrawals, "card2");
 
-        getContentPane().add(pnlParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 64, 700, 540));
+        getContentPane().add(pnlParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 64, 690, 540));
 
         pnlInfo.setBackground(new java.awt.Color(255, 255, 255));
         pnlInfo.setForeground(new java.awt.Color(0, 0, 0));
@@ -455,7 +484,7 @@ public class Home extends javax.swing.JFrame
                 .addComponent(lblTagStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         pnlInfoLayout.setVerticalGroup(
             pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,7 +500,7 @@ public class Home extends javax.swing.JFrame
                 .addGap(18, 18, 18))
         );
 
-        getContentPane().add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 0, 700, 70));
+        getContentPane().add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 0, 690, 70));
 
         pack();
         setLocationRelativeTo(null);
@@ -527,6 +556,12 @@ public class Home extends javax.swing.JFrame
         MakeDeposit md = new MakeDeposit(currAccount);
         md.setVisible(true);
     }//GEN-LAST:event_btnMakeDepositActionPerformed
+
+    private void OverviewHover(java.awt.event.MouseEvent evt)//GEN-FIRST:event_OverviewHover
+    {//GEN-HEADEREND:event_OverviewHover
+        btnOverview.setOpaque(true);
+        btnOverview.setBackground(Color.DARK_GRAY);
+    }//GEN-LAST:event_OverviewHover
 
     /**
      * @param args the command line arguments
