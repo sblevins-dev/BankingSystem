@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author nechi
  */
-public class Deposit extends Transaction
+public class Withdrawal extends Transaction
 {
     private String place;
     private Date currDate;
@@ -19,10 +19,10 @@ public class Deposit extends Transaction
     private String currType;
     private int userId;
     
-    public Deposit(double amount, Account user) {
-        this.place = "Bank";
+    public Withdrawal(double amount, Account user) {
+        this.place = "ATM";
         this.currDate = new Date();
-        this.type = "Deposit";
+        this.type = "Withdrawal";
         this.amount = amount;
         this.currType = "USD";
         this.userId = user.getID();
