@@ -4,9 +4,20 @@
  */
 package BankPackage;
 
-import java.text.ParseException;
-import javax.swing.JFormattedTextField;
-import java.text.NumberFormat;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+
 
 /**
  *
@@ -16,7 +27,8 @@ public class MakeDeposit extends javax.swing.JFrame
 {
     private String accNum;
     private double amount;
-    
+    private Account currAccount;
+    private DataIO dataIO;
     /**
      * Creates new form MakeDeposit
      */
@@ -24,12 +36,13 @@ public class MakeDeposit extends javax.swing.JFrame
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    public MakeDeposit(String num)
+    public MakeDeposit(Account currAccount)
     {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.accNum = num;
-        txtAccount.setText(num);
+        this.accNum = currAccount.getAccountNumber();
+        txtAccount.setText(accNum);
+        this.currAccount = currAccount;
     }
 
     /**
@@ -96,7 +109,7 @@ public class MakeDeposit extends javax.swing.JFrame
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -127,7 +140,7 @@ public class MakeDeposit extends javax.swing.JFrame
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDeposit)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -148,10 +161,46 @@ public class MakeDeposit extends javax.swing.JFrame
     {//GEN-HEADEREND:event_btnDepositActionPerformed
         String amount = txtAmount.getText();
         
+        JDialog popup = new JDialog(this, "Success!", true);
+        popup.setTitle("Success!");
+        popup.setSize(200, 100);
+        popup.setLocationRelativeTo(this);
+        popup.setLayout(new BorderLayout());
+        
+        JPanel background = new JPanel();
+        background.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.CENTER;
+        background.setBackground(new Color(255, 255, 255));
+        
+        
+        
+        JLabel label = new JLabel("Deposit Made");
+        
+        
+        popup.add(background, BorderLayout.CENTER);
+        background.add(label, gbc);
+        
+        pack();
+        try
+        {
+            dataIO = new DataIO();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(MakeDeposit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         try {
             this.amount = Double.parseDouble(amount);
             
-            System.out.println(this.amount);
+            Deposit deposit = new Deposit(this.amount, currAccount);
+            dataIO.addDeposit(deposit, currAccount);
+            this.dispose();
+            popup.setVisible(true);
         } catch (Exception e) {
                 System.out.println(e);
         }
@@ -200,6 +249,7 @@ public class MakeDeposit extends javax.swing.JFrame
             public void run()
             {
                 new MakeDeposit().setVisible(true);
+           
             }
         });
     }
@@ -214,4 +264,5 @@ public class MakeDeposit extends javax.swing.JFrame
     private javax.swing.JTextField txtAccount;
     private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
+
 }

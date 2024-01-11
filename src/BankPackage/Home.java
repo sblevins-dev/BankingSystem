@@ -5,8 +5,10 @@
 package BankPackage;
 
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -208,10 +210,11 @@ public class Home extends javax.swing.JFrame
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 600));
+        getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 610));
 
         pnlParent.setBackground(new java.awt.Color(255, 255, 255));
         pnlParent.setName(""); // NOI18N
+        pnlParent.setPreferredSize(new java.awt.Dimension(500, 480));
         pnlParent.setLayout(new java.awt.CardLayout());
 
         pnlOverview.setBackground(new java.awt.Color(255, 255, 255));
@@ -408,7 +411,7 @@ public class Home extends javax.swing.JFrame
 
         pnlParent.add(pnlWithdrawals, "card2");
 
-        getContentPane().add(pnlParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 64, 700, 540));
+        getContentPane().add(pnlParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 64, 700, 540));
 
         pnlInfo.setBackground(new java.awt.Color(255, 255, 255));
         pnlInfo.setForeground(new java.awt.Color(0, 0, 0));
@@ -451,7 +454,7 @@ public class Home extends javax.swing.JFrame
                 .addComponent(lblTagStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         pnlInfoLayout.setVerticalGroup(
             pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,7 +470,7 @@ public class Home extends javax.swing.JFrame
                 .addGap(18, 18, 18))
         );
 
-        getContentPane().add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 0, 700, 70));
+        getContentPane().add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 0, 700, 70));
 
         pack();
         setLocationRelativeTo(null);
@@ -520,7 +523,7 @@ public class Home extends javax.swing.JFrame
 
     private void btnMakeDepositActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMakeDepositActionPerformed
     {//GEN-HEADEREND:event_btnMakeDepositActionPerformed
-        MakeDeposit md = new MakeDeposit(currAccount.getAccountNumber());
+        MakeDeposit md = new MakeDeposit(currAccount);
         md.setVisible(true);
     }//GEN-LAST:event_btnMakeDepositActionPerformed
 
@@ -628,10 +631,15 @@ public class Home extends javax.swing.JFrame
     // Display Account information at top of Application
     private void displayAccount(Account currAccount)
     {
+        
+        NumberFormat nF
+            = NumberFormat
+                  .getCurrencyInstance(Locale.US);
+        
         lblName.setText(currAccount.getName());
         lblAccountNumber.setText(String.valueOf(currAccount.getAccountNumber()));
         lblStatus.setText(currAccount.getAccountStatus());
-        txtAccountBalance.setText(String.valueOf(currAccount.getBalance()));
+        txtAccountBalance.setText(nF.format(currAccount.getBalance()));
     }
 
     // Pull all transactions from DB

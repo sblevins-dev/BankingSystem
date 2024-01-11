@@ -4,7 +4,9 @@
  */
 package BankPackage;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -15,6 +17,9 @@ public class MyTableModel extends AbstractTableModel
 {
     String[] columnNames = {"Place", "Date Of Transaction", "Type", "Amount"};
     ArrayList<Transaction> transArr;
+    NumberFormat nF
+            = NumberFormat
+                  .getCurrencyInstance(Locale.US);
     
     public MyTableModel(ArrayList transArr) {
         this.transArr = transArr;
@@ -50,7 +55,7 @@ public class MyTableModel extends AbstractTableModel
             case 2:
                 return trans.getType();
             case 3:
-                return trans.getAmount();
+                return nF.format(trans.getAmount());
             default:
                 return null;
         }
