@@ -4,6 +4,17 @@
  */
 package BankPackage;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
  *
  * @author nechi
@@ -13,6 +24,8 @@ public class MakeWithdrawal extends javax.swing.JFrame
 
     private String accNum;
     private double amount;
+    private Account currAccount;
+    private DataIO dataIO;
     /**
      * Creates new form MakeWithdrawal
      */
@@ -22,12 +35,13 @@ public class MakeWithdrawal extends javax.swing.JFrame
         this.setLocationRelativeTo(null);
     }
     
-    public MakeWithdrawal(String num)
+    public MakeWithdrawal(Account currAccount)
     {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.accNum = num;
-        txtAccount.setText(num);
+        this.accNum = currAccount.getAccountNumber();
+        txtAccount.setText(accNum);
+        this.currAccount = currAccount;
     }
 
     /**
@@ -76,6 +90,13 @@ public class MakeWithdrawal extends javax.swing.JFrame
 
         btnWithdrawal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnWithdrawal.setText("Withdraw");
+        btnWithdrawal.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnWithdrawalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -137,6 +158,55 @@ public class MakeWithdrawal extends javax.swing.JFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnWithdrawalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnWithdrawalActionPerformed
+    {//GEN-HEADEREND:event_btnWithdrawalActionPerformed
+         String amount = txtAmount.getText();
+        
+        JDialog popup = new JDialog(this, "Success!", true);
+        popup.setTitle("Success!");
+        popup.setSize(200, 100);
+        popup.setLocationRelativeTo(this);
+        popup.setLayout(new BorderLayout());
+        
+        JPanel background = new JPanel();
+        background.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.CENTER;
+        background.setBackground(new Color(255, 255, 255));
+        
+        
+        
+        JLabel label = new JLabel("Withdrawal Made");
+        
+        
+        popup.add(background, BorderLayout.CENTER);
+        background.add(label, gbc);
+        
+        pack();
+        try
+        {
+            dataIO = new DataIO();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(MakeDeposit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            this.amount = Double.parseDouble(amount);
+            
+            Withdrawal withdrawal = new Withdrawal(this.amount, currAccount);
+            dataIO.makeWithdrawal(withdrawal, currAccount);
+            this.dispose();
+            popup.setVisible(true);
+        } catch (Exception e) {
+                System.out.println(e);
+        }
+    }//GEN-LAST:event_btnWithdrawalActionPerformed
 
     /**
      * @param args the command line arguments

@@ -68,7 +68,7 @@ public class DataIO
         ArrayList<Transaction> transList = new ArrayList();
         Transaction trans;
 
-        String sql = "SELECT * FROM transaction WHERE UserId = ?";
+        String sql = "SELECT * FROM transaction WHERE UserId = ? ORDER BY DateOfTrans";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
@@ -102,61 +102,59 @@ public class DataIO
         
         if (transaction instanceof Deposit) {
             accBalance = currAccount.getBalance() + transaction.getAmount();
-            System.out.println("Deposit");
         } else if (transaction instanceof Withdrawal) {
-            accBalance = currAccount.getBalance() + transaction.getAmount();
-            System.out.println("Withdrawal");
+            accBalance = currAccount.getBalance() - transaction.getAmount();
         }
         
-//        String sql = "UPDATE account "
-//                + "SET AccountBalance = ? "
-//                + "WHERE account.id = ?";
-//
-//        PreparedStatement stmt = con.prepareStatement(sql);
-//        stmt.setDouble(1, accBalance);
-//        stmt.setInt(2, currAccount.getID());
-//
-//        stmt.execute();
-//
-//        con.close();
+        String sql = "UPDATE account "
+                + "SET AccountBalance = ? "
+                + "WHERE account.id = ?";
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setDouble(1, accBalance);
+        stmt.setInt(2, currAccount.getID());
+
+        stmt.execute();
+
+        con.close();
     }
 
     public void addDeposit(Deposit deposit, Account currAccount) throws ClassNotFoundException, SQLException
     {
-//        Class.forName("com.mysql.cj.jdbc.Driver");
-//
-//        String sql = "INSERT INTO transaction "
-//                + "(Place, DateOfTrans, Type, Amount, CurrType, UserId)"
-//                + "VALUES (?, ?, ?, ?, ?, ?)";
-//        PreparedStatement stmt = con.prepareStatement(sql);
-//        stmt.setString(1, deposit.getPlace());
-//        stmt.setString(2, deposit.getDate());
-//        stmt.setString(3, deposit.getType());
-//        stmt.setDouble(4, deposit.getAmount());
-//        stmt.setString(5, deposit.getCurrType());
-//        stmt.setInt(6, deposit.getUserId());
-//
-//        stmt.execute();
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        String sql = "INSERT INTO transaction "
+                + "(Place, DateOfTrans, Type, Amount, CurrType, UserId)"
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, deposit.getPlace());
+        stmt.setString(2, deposit.getDate());
+        stmt.setString(3, deposit.getType());
+        stmt.setDouble(4, deposit.getAmount());
+        stmt.setString(5, deposit.getCurrType());
+        stmt.setInt(6, deposit.getUserId());
+
+        stmt.execute();
         updateAmount(deposit, currAccount);
 
         con.close();
     }
     
     public void makeWithdrawal(Withdrawal withdrawal, Account currAccount) throws ClassNotFoundException, SQLException {
-//        Class.forName("com.mysql.cj.jdbc.Driver");
-//
-//        String sql = "INSERT INTO transaction "
-//                + "(Place, DateOfTrans, Type, Amount, CurrType, UserId)"
-//                + "VALUES (?, ?, ?, ?, ?, ?)";
-//        PreparedStatement stmt = con.prepareStatement(sql);
-//        stmt.setString(1, withdrawal.getPlace());
-//        stmt.setString(2, withdrawal.getDate());
-//        stmt.setString(3, withdrawal.getType());
-//        stmt.setDouble(4, withdrawal.getAmount());
-//        stmt.setString(5, withdrawal.getCurrType());
-//        stmt.setInt(6, withdrawal.getUserId());
-//
-//        stmt.execute();
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        String sql = "INSERT INTO transaction "
+                + "(Place, DateOfTrans, Type, Amount, CurrType, UserId)"
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, withdrawal.getPlace());
+        stmt.setString(2, withdrawal.getDate());
+        stmt.setString(3, withdrawal.getType());
+        stmt.setDouble(4, withdrawal.getAmount());
+        stmt.setString(5, withdrawal.getCurrType());
+        stmt.setInt(6, withdrawal.getUserId());
+
+        stmt.execute();
         updateAmount(withdrawal, currAccount);
 
         con.close();

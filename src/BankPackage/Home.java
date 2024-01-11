@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -517,7 +518,7 @@ public class Home extends javax.swing.JFrame
 
     private void btnMakeWithdrawalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMakeWithdrawalActionPerformed
     {//GEN-HEADEREND:event_btnMakeWithdrawalActionPerformed
-        MakeWithdrawal mw = new MakeWithdrawal(currAccount.getAccountNumber());
+        MakeWithdrawal mw = new MakeWithdrawal(currAccount);
         mw.setVisible(true);
     }//GEN-LAST:event_btnMakeWithdrawalActionPerformed
 
@@ -660,6 +661,7 @@ public class Home extends javax.swing.JFrame
         
         String testStr;
         Transaction trans;
+        int size = transArr.size();
         
         for (int i = 0; i < transArr.size(); i++) {
             trans = transArr.get(i);
@@ -679,9 +681,11 @@ public class Home extends javax.swing.JFrame
         }
         
         // Display recent transactions on Home/Overview page
-        MyTableModel recentTransModel = new MyTableModel(recentList);
-        tblTrans.setModel(recentTransModel);
-        tblTrans.setRowHeight(30);
+        getLastTransactions(transArr);
+//        recentList = transArr.subList(size - 5, size);
+//        MyTableModel recentTransModel = new MyTableModel(recentList);
+//        tblTrans.setModel(recentTransModel);
+//        tblTrans.setRowHeight(30);
         
         // Display all transactions on Transactions page
         MyTableModel transactionModel = new MyTableModel(transArr);
@@ -697,6 +701,20 @@ public class Home extends javax.swing.JFrame
         MyTableModel withdrawalModel = new MyTableModel(withdrawalList);
         tblWithdrawals.setModel(withdrawalModel);
         tblWithdrawals.setRowHeight(30);
+    }
+    
+    private <T> void getLastTransactions(List<T> list) {
+        int size = transArr.size();
+        int n = Math.min(5, size);
+        ArrayList<T> result = new ArrayList<>(n);
+        
+        for (int i = size - 1; i >= size - n; i--) {
+            result.add(list.get(i));
+        }
+        
+        MyTableModel recentTableModel = new MyTableModel(result);
+        tblTrans.setModel(recentTableModel);
+        tblTrans.setRowHeight(30);
     }
 
     private void signIn() throws SQLException, ClassNotFoundException
