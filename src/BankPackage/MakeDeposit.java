@@ -40,6 +40,7 @@ public class MakeDeposit extends javax.swing.JFrame
     {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         this.accNum = currAccount.getAccountNumber();
         txtAccount.setText(accNum);
         this.currAccount = currAccount;
@@ -78,8 +79,11 @@ public class MakeDeposit extends javax.swing.JFrame
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Amount: ");
 
+        btnDeposit.setBackground(new java.awt.Color(0, 102, 102));
         btnDeposit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDeposit.setForeground(new java.awt.Color(255, 255, 255));
         btnDeposit.setText("Deposit");
+        btnDeposit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeposit.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)

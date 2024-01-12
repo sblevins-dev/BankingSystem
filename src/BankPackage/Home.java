@@ -5,6 +5,10 @@
 package BankPackage;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -13,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -31,8 +37,22 @@ public class Home extends javax.swing.JFrame
     {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Bank Of The Ozarks");
+        this.setTitle("OzarkBank");
         this.setResizable(false);
+        
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("C:\\Users\\nechi\\OneDrive"
+                    + "\\Desktop\\Projects\\Bank\\src\\BankPackage"
+                    + "\\bg.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image dimg = img.getScaledInstance( 200, 
+                lblImg.getHeight(), Image.SCALE_SMOOTH);
+        
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        lblImg.setIcon(imageIcon);
         
         
         date = new Date();
@@ -82,12 +102,14 @@ public class Home extends javax.swing.JFrame
     private void initComponents()
     {
 
+        jLabel6 = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         btnOverview = new javax.swing.JButton();
         btnTransactions = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         btnDeposit = new javax.swing.JButton();
         btnWithdrawal = new javax.swing.JButton();
+        lblImg = new javax.swing.JLabel();
         pnlParent = new javax.swing.JPanel();
         pnlOverview = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -123,17 +145,21 @@ public class Home extends javax.swing.JFrame
         lblAccountNumber = new javax.swing.JLabel();
         lblTagStatus = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BankPackage/bg.jpg"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlNavigation.setBackground(new java.awt.Color(204, 204, 204));
+        pnlNavigation.setBackground(new java.awt.Color(0, 102, 102));
+        pnlNavigation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnOverview.setBackground(new java.awt.Color(204, 204, 204));
         btnOverview.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnOverview.setForeground(new java.awt.Color(51, 51, 51));
+        btnOverview.setForeground(new java.awt.Color(255, 255, 255));
         btnOverview.setText("Overview");
         btnOverview.setBorder(null);
         btnOverview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -145,6 +171,10 @@ public class Home extends javax.swing.JFrame
             {
                 OverviewHover(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                OverviewHoverEnd(evt);
+            }
         });
         btnOverview.addActionListener(new java.awt.event.ActionListener()
         {
@@ -153,14 +183,27 @@ public class Home extends javax.swing.JFrame
                 btnOverviewActionPerformed(evt);
             }
         });
+        pnlNavigation.add(btnOverview, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 170, 60));
 
         btnTransactions.setBackground(new java.awt.Color(204, 204, 204));
         btnTransactions.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnTransactions.setForeground(new java.awt.Color(51, 51, 51));
+        btnTransactions.setForeground(new java.awt.Color(255, 255, 255));
         btnTransactions.setText("Transactions");
         btnTransactions.setBorder(null);
+        btnTransactions.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTransactions.setFocusPainted(false);
         btnTransactions.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnTransactions.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                TransOnHover(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                TransHoverOff(evt);
+            }
+        });
         btnTransactions.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -168,13 +211,26 @@ public class Home extends javax.swing.JFrame
                 btnTransactionsActionPerformed(evt);
             }
         });
+        pnlNavigation.add(btnTransactions, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 170, 60));
 
         btnLogout.setBackground(new java.awt.Color(204, 204, 204));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnLogout.setForeground(new java.awt.Color(51, 51, 51));
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
         btnLogout.setText("Logout");
         btnLogout.setBorder(null);
+        btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogout.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnLogout.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                LogoutOnHover(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                LogoutHoverOff(evt);
+            }
+        });
         btnLogout.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -182,16 +238,29 @@ public class Home extends javax.swing.JFrame
                 btnLogoutActionPerformed(evt);
             }
         });
+        pnlNavigation.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 170, 60));
 
         btnDeposit.setBackground(new java.awt.Color(204, 204, 204));
         btnDeposit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnDeposit.setForeground(new java.awt.Color(51, 51, 51));
+        btnDeposit.setForeground(new java.awt.Color(255, 255, 255));
         btnDeposit.setText("Deposits");
         btnDeposit.setBorder(null);
         btnDeposit.setBorderPainted(false);
+        btnDeposit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeposit.setMaximumSize(new java.awt.Dimension(80, 25));
         btnDeposit.setMinimumSize(new java.awt.Dimension(80, 25));
         btnDeposit.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnDeposit.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                DepositOnHover(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                DepositHoverOff(evt);
+            }
+        });
         btnDeposit.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -199,13 +268,26 @@ public class Home extends javax.swing.JFrame
                 btnDepositActionPerformed(evt);
             }
         });
+        pnlNavigation.add(btnDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 170, 60));
 
         btnWithdrawal.setBackground(new java.awt.Color(204, 204, 204));
         btnWithdrawal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnWithdrawal.setForeground(new java.awt.Color(51, 51, 51));
+        btnWithdrawal.setForeground(new java.awt.Color(255, 255, 255));
         btnWithdrawal.setText("Withdrawals");
         btnWithdrawal.setBorder(null);
         btnWithdrawal.setBorderPainted(false);
+        btnWithdrawal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnWithdrawal.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                WithdrawalOnHover(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                WithdrawalHoverOff(evt);
+            }
+        });
         btnWithdrawal.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -213,32 +295,8 @@ public class Home extends javax.swing.JFrame
                 btnWithdrawalActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnlNavigationLayout = new javax.swing.GroupLayout(pnlNavigation);
-        pnlNavigation.setLayout(pnlNavigationLayout);
-        pnlNavigationLayout.setHorizontalGroup(
-            pnlNavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnOverview, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnDeposit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnWithdrawal, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-        );
-        pnlNavigationLayout.setVerticalGroup(
-            pnlNavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNavigationLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(btnOverview, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnWithdrawal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
-        );
+        pnlNavigation.add(btnWithdrawal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 170, 60));
+        pnlNavigation.add(lblImg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 603));
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 610));
 
@@ -367,9 +425,10 @@ public class Home extends javax.swing.JFrame
         pnlDeposits.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
         pnlDeposits.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 660, 10));
 
-        btnMakeDeposit.setBackground(new java.awt.Color(0, 51, 102));
+        btnMakeDeposit.setBackground(new java.awt.Color(0, 102, 102));
         btnMakeDeposit.setForeground(new java.awt.Color(255, 255, 255));
         btnMakeDeposit.setText("Make a Deposit");
+        btnMakeDeposit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMakeDeposit.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -410,9 +469,10 @@ public class Home extends javax.swing.JFrame
         jSeparator5.setBackground(new java.awt.Color(51, 51, 51));
         pnlWithdrawals.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 660, 10));
 
-        btnMakeWithdrawal.setBackground(new java.awt.Color(0, 51, 102));
+        btnMakeWithdrawal.setBackground(new java.awt.Color(0, 102, 102));
         btnMakeWithdrawal.setForeground(new java.awt.Color(255, 255, 255));
         btnMakeWithdrawal.setText("Make a Withdrawal");
+        btnMakeWithdrawal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMakeWithdrawal.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -502,6 +562,21 @@ public class Home extends javax.swing.JFrame
 
         getContentPane().add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 0, 690, 70));
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 890, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 600));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -560,8 +635,57 @@ public class Home extends javax.swing.JFrame
     private void OverviewHover(java.awt.event.MouseEvent evt)//GEN-FIRST:event_OverviewHover
     {//GEN-HEADEREND:event_OverviewHover
         btnOverview.setOpaque(true);
-        btnOverview.setBackground(Color.DARK_GRAY);
+        btnOverview.setBackground(new java.awt.Color(0, 102, 115));
     }//GEN-LAST:event_OverviewHover
+
+    private void OverviewHoverEnd(java.awt.event.MouseEvent evt)//GEN-FIRST:event_OverviewHoverEnd
+    {//GEN-HEADEREND:event_OverviewHoverEnd
+        btnOverview.setOpaque(false);
+    }//GEN-LAST:event_OverviewHoverEnd
+
+    private void TransOnHover(java.awt.event.MouseEvent evt)//GEN-FIRST:event_TransOnHover
+    {//GEN-HEADEREND:event_TransOnHover
+        btnTransactions.setOpaque(true);
+        btnTransactions.setBackground(new java.awt.Color(0, 102, 115));
+    }//GEN-LAST:event_TransOnHover
+
+    private void TransHoverOff(java.awt.event.MouseEvent evt)//GEN-FIRST:event_TransHoverOff
+    {//GEN-HEADEREND:event_TransHoverOff
+        btnTransactions.setOpaque(false);
+    }//GEN-LAST:event_TransHoverOff
+
+    private void DepositOnHover(java.awt.event.MouseEvent evt)//GEN-FIRST:event_DepositOnHover
+    {//GEN-HEADEREND:event_DepositOnHover
+        btnDeposit.setOpaque(true);
+        btnDeposit.setBackground(new java.awt.Color(0, 102, 115));
+    }//GEN-LAST:event_DepositOnHover
+
+    private void DepositHoverOff(java.awt.event.MouseEvent evt)//GEN-FIRST:event_DepositHoverOff
+    {//GEN-HEADEREND:event_DepositHoverOff
+        btnDeposit.setOpaque(false);
+    }//GEN-LAST:event_DepositHoverOff
+
+    private void WithdrawalOnHover(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WithdrawalOnHover
+    {//GEN-HEADEREND:event_WithdrawalOnHover
+        btnWithdrawal.setOpaque(true);
+        btnWithdrawal.setBackground(new java.awt.Color(0, 102, 115));
+    }//GEN-LAST:event_WithdrawalOnHover
+
+    private void WithdrawalHoverOff(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WithdrawalHoverOff
+    {//GEN-HEADEREND:event_WithdrawalHoverOff
+        btnWithdrawal.setOpaque(false);
+    }//GEN-LAST:event_WithdrawalHoverOff
+
+    private void LogoutOnHover(java.awt.event.MouseEvent evt)//GEN-FIRST:event_LogoutOnHover
+    {//GEN-HEADEREND:event_LogoutOnHover
+        btnLogout.setOpaque(true);
+        btnLogout.setBackground(new java.awt.Color(0, 102, 115));
+    }//GEN-LAST:event_LogoutOnHover
+
+    private void LogoutHoverOff(java.awt.event.MouseEvent evt)//GEN-FIRST:event_LogoutHoverOff
+    {//GEN-HEADEREND:event_LogoutHoverOff
+        btnLogout.setOpaque(false);
+    }//GEN-LAST:event_LogoutHoverOff
 
     /**
      * @param args the command line arguments
@@ -633,8 +757,10 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -645,6 +771,7 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JLabel lblAccountNumber;
+    private javax.swing.JLabel lblImg;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTagAccNumber;

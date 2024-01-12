@@ -4,6 +4,7 @@
  */
 package BankPackage;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -30,11 +31,14 @@ public class Login extends javax.swing.JFrame
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         
+        btnLogin.setBackground(new java.awt.Color(0, 102, 102));
+        btnLogin.setForeground(Color.WHITE);
+        
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File("C:\\Users\\nechi\\OneDrive"
                     + "\\Desktop\\Projects\\Bank\\src\\BankPackage"
-                    + "\\bank.jpg"));
+                    + "\\bg.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,14 +64,15 @@ public class Login extends javax.swing.JFrame
         loginRight = new javax.swing.JPanel();
         lblUsername = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
+        spUsername = new javax.swing.JSeparator();
         lblPassword = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        spPassword = new javax.swing.JSeparator();
+        txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         loginLeft = new javax.swing.JPanel();
         pnlOverlay = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         lblImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,12 +86,39 @@ public class Login extends javax.swing.JFrame
 
         txtUsername.setForeground(new java.awt.Color(0, 0, 0));
         txtUsername.setBorder(null);
+        txtUsername.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                usernameOnFocus(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                UsernameFocusOff(evt);
+            }
+        });
+
+        spUsername.setBackground(new java.awt.Color(255, 255, 255));
+        spUsername.setForeground(new java.awt.Color(51, 51, 51));
+        spUsername.setPreferredSize(new java.awt.Dimension(0, 5));
 
         lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setText("Password");
 
-        jPasswordField1.setText("jPasswordField1");
-        jPasswordField1.setBorder(null);
+        txtPassword.setForeground(new java.awt.Color(153, 153, 153));
+        txtPassword.setText("jPasswordField1");
+        txtPassword.setBorder(null);
+        txtPassword.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                passwordOnFocus(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                passwordFocusOff(evt);
+            }
+        });
 
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener()
@@ -106,11 +138,11 @@ public class Login extends javax.swing.JFrame
                 .addGroup(loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(loginRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(lblPassword)
-                        .addComponent(jSeparator2)
+                        .addComponent(spPassword)
                         .addComponent(lblUsername)
                         .addComponent(txtUsername)
-                        .addComponent(jSeparator1)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(spUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(loginRightLayout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -124,13 +156,13 @@ public class Login extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblPassword)
                 .addGap(18, 18, 18)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(153, Short.MAX_VALUE))
@@ -144,26 +176,35 @@ public class Login extends javax.swing.JFrame
         pnlOverlay.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("<html>Bank Of The Ozarks</html>");
+        jLabel1.setText("<html>Welcome to <strong>OzarkBank</strong></html>");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Log in to access your account");
 
         javax.swing.GroupLayout pnlOverlayLayout = new javax.swing.GroupLayout(pnlOverlay);
         pnlOverlay.setLayout(pnlOverlayLayout);
         pnlOverlayLayout.setHorizontalGroup(
             pnlOverlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOverlayLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(pnlOverlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlOverlayLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         pnlOverlayLayout.setVerticalGroup(
             pnlOverlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOverlayLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(84, 84, 84)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         loginLeft.add(pnlOverlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 390));
@@ -210,6 +251,31 @@ public class Login extends javax.swing.JFrame
         }
         
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void usernameOnFocus(java.awt.event.FocusEvent evt)//GEN-FIRST:event_usernameOnFocus
+    {//GEN-HEADEREND:event_usernameOnFocus
+        txtUsername.setForeground(new java.awt.Color(0, 102, 102));
+        spUsername.setForeground(new java.awt.Color(0, 102, 102));
+    }//GEN-LAST:event_usernameOnFocus
+
+    private void UsernameFocusOff(java.awt.event.FocusEvent evt)//GEN-FIRST:event_UsernameFocusOff
+    {//GEN-HEADEREND:event_UsernameFocusOff
+        txtUsername.setForeground(Color.DARK_GRAY);
+        spUsername.setForeground(Color.DARK_GRAY);
+    }//GEN-LAST:event_UsernameFocusOff
+
+    private void passwordOnFocus(java.awt.event.FocusEvent evt)//GEN-FIRST:event_passwordOnFocus
+    {//GEN-HEADEREND:event_passwordOnFocus
+        txtPassword.setText("");
+        txtPassword.setForeground(new java.awt.Color(0, 102, 102));
+        spPassword.setForeground(new java.awt.Color(0, 102, 102));
+    }//GEN-LAST:event_passwordOnFocus
+
+    private void passwordFocusOff(java.awt.event.FocusEvent evt)//GEN-FIRST:event_passwordFocusOff
+    {//GEN-HEADEREND:event_passwordFocusOff
+        txtPassword.setForeground(Color.DARK_GRAY);
+        spPassword.setForeground(Color.DARK_GRAY);
+    }//GEN-LAST:event_passwordFocusOff
 
     /**
      * @param args the command line arguments
@@ -260,9 +326,7 @@ public class Login extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblImg;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUsername;
@@ -270,6 +334,9 @@ public class Login extends javax.swing.JFrame
     private javax.swing.JPanel loginLeft;
     private javax.swing.JPanel loginRight;
     private javax.swing.JPanel pnlOverlay;
+    private javax.swing.JSeparator spPassword;
+    private javax.swing.JSeparator spUsername;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
